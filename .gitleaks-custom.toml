@@ -1,0 +1,55 @@
+title = "Que Custom Gitleaks Rules"
+description = "Custom rules for detecting database connection strings and passwords with special characters"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "db-connection-string"
+description = "Database connection string detection"
+regex = '''(?i)(mongodb(\+srv)?|postgres(ql)?|mysql|mssql|redis|jdbc:|Data Source|Server=).{0,50}(://|=.{0,50}@)[^"\s<>]{8,200}'''
+entropy = 3.0
+secretGroup = 0
+tags = ["database", "connection"]
+
+[rules.allowlist]
+regexes = [
+    '''localhost:[0-9]+/[a-z]+''',
+    '''127\.0\.0\.1:[0-9]+/[a-z]+''',
+    '''\$\{[^}]+\}''',
+    '''{{[^}]+}}'''
+]
+
+[[rules]]
+id = "generic-password-special-chars"
+description = "Generic password with special characters detection"
+regex = '''(?i)(password|passwd|pwd|pass|secret|token|api[_-]?key|auth[_-]?key)\s*[:=]\s*["\']?([A-Za-z\d!@#$%^&*()_+=\[\]{};:,.<>?/\\|-]{8,128})["\']?'''
+entropy = 4.0
+secretGroup = 2
+keywords = [
+    "password",
+    "passwd",
+    "secret",
+    "token",
+    "apikey",
+    "api_key",
+    "auth",
+    "pwd"
+]
+tags = ["password", "secret"]
+
+[rules.allowlist]
+regexes = [
+    '''(?i)(example|sample|test|demo|dummy|placeholder|your[_-]?password)''',
+    '''\$\{[^}]+\}''',
+    '''{{[^}]+}}''',
+    '''<[^>]+>''',
+    '''\*{3,}''',
+    '''x{5,}'''
+]
+paths = [
+    '''.*\.md$''',
+    '''.*\.txt$''',
+    '''.*/examples?/.*'''
+]
+
