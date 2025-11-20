@@ -13,11 +13,48 @@ Que is a CLI utility designed to act as a filter in a Unix pipeline. It ingests 
 
 ## Installation
 
-### From Source (Recommended)
+### Quick Install
+
+**Universal installer (auto-detects platform):**
+```bash
+curl -sSL https://raw.githubusercontent.com/njenia/que/main/install.sh | bash
+```
+
+Or download and install the latest release for your platform:
+
+**Linux (amd64):**
+```bash
+curl -L https://github.com/njenia/que/releases/latest/download/que-linux-amd64.tar.gz | tar -xz && sudo mv que /usr/local/bin/
+```
+
+**Linux (arm64):**
+```bash
+curl -L https://github.com/njenia/que/releases/latest/download/que-linux-arm64.tar.gz | tar -xz && sudo mv que /usr/local/bin/
+```
+
+**macOS (amd64):**
+```bash
+curl -L https://github.com/njenia/que/releases/latest/download/que-darwin-amd64.tar.gz | tar -xz && sudo mv que /usr/local/bin/
+```
+
+**macOS (arm64 / Apple Silicon):**
+```bash
+curl -L https://github.com/njenia/que/releases/latest/download/que-darwin-arm64.tar.gz | tar -xz && sudo mv que /usr/local/bin/
+```
+
+**Windows:**
+```powershell
+# Download and extract
+curl -L https://github.com/njenia/que/releases/latest/download/que-windows-amd64.zip -o que.zip
+Expand-Archive que.zip
+# Move que.exe to a directory in your PATH
+```
+
+### From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/jenian/que.git
+git clone https://github.com/njenia/que.git
 cd que
 
 # Build with Make (automatically detects version from git tags)
@@ -30,7 +67,7 @@ make install
 ### Using Go Install
 
 ```bash
-go install github.com/jenian/que/cmd/que@latest
+go install github.com/njenia/que/cmd/que@latest
 ```
 
 **Note**: When building locally, use `make build` to automatically set the version from git tags. Building with `go build` directly will show version as "dev".
