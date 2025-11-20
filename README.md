@@ -3,7 +3,7 @@
 
   <img src="img/que_demo.gif" alt="Demo" style="flex: 1" />
 
-Que is a CLI utility designed to act as a filter in a Unix pipeline. It ingests stdin (logs, error tracebacks, config files), sanitizes the data for security, enriches it with local system context, and queries an LLM (ChatGPT or Claude) to determine the root cause and suggest a fix.
+Que is a CLI utility designed to act as a filter in a Unix pipeline. It ingests stdin (logs, error tracebacks, config files), sanitizes the data for security, enriches it with local system context, and queries an LLM (ChatGPT or Claude) to determine the root cause and suggest a fix. Perfect for analyzing errors in servers and CI/CD environments where you don't have easy access to AI-powered editors.
 
 ## 🔒 Privacy & Security
 
@@ -89,6 +89,43 @@ cat log.txt | que --no-context
 
 # Interactive mode with specific provider
 cat server.log | que --provider claude -i
+```
+
+### CI/CD and Server Use Cases
+
+Que is perfect for automated environments where you need AI-powered log analysis without interactive editors:
+
+**GitHub Actions:**
+```yaml
+- name: Analyze deployment errors
+  if: failure()
+  run: |
+    cat deployment.log | que --no-context > analysis.txt
+    cat analysis.txt
+```
+
+**Docker/Kubernetes:**
+```bash
+# Analyze container logs
+kubectl logs pod-name | que --no-context
+
+# Analyze Docker logs
+docker logs container-name 2>&1 | que
+```
+
+**Server Monitoring:**
+```bash
+# Analyze systemd service failures
+journalctl -u my-service --since "1 hour ago" | que
+
+# Analyze application errors from log files
+tail -n 1000 /var/log/app/error.log | que --provider claude
+```
+
+**Automated Error Reporting:**
+```bash
+# Send analysis to Slack/email
+cat error.log | que --no-context | mail -s "Error Analysis" admin@example.com
 ```
 
 ## How It Works
