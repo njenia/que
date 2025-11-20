@@ -6,9 +6,27 @@ Que is a CLI utility designed to act as a filter in a Unix pipeline. It ingests 
 
 ## Installation
 
+### From Source (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/jenian/que.git
+cd que
+
+# Build with Make (automatically detects version from git tags)
+make build
+
+# Or install directly
+make install
+```
+
+### Using Go Install
+
 ```bash
 go install github.com/jenian/que/cmd/que@latest
 ```
+
+**Note**: When building locally, use `make build` to automatically set the version from git tags. Building with `go build` directly will show version as "dev".
 
 ## Usage
 
