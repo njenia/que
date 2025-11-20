@@ -32,10 +32,11 @@ var (
 
 func main() {
 	rootCmd := &cobra.Command{
-		Use:   "que",
-		Short: "The pipe-able DevOps assistant",
-		Long:  "Que is a CLI utility that analyzes logs and errors from stdin using LLMs to suggest fixes.",
-		RunE:  runQue,
+		Use:     "que",
+		Short:   "The pipe-able DevOps assistant",
+		Long:    fmt.Sprintf("Que is a CLI utility that analyzes logs and errors from stdin using LLMs to suggest fixes.\n\nVersion: %s", Version),
+		Version: Version,
+		RunE:    runQue,
 	}
 
 	rootCmd.Flags().StringVarP(&providerFlag, "provider", "p", "", "LLM provider to use (openai, claude)")

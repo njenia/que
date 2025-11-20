@@ -6,6 +6,9 @@
 *.dylib
 que.exe
 
+# Ignore que binary in root directory only (not subfolders like cmd/que/)
+/que
+
 # Test binary, built with `go test -c`
 *.test
 
