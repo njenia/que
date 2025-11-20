@@ -1,0 +1,65 @@
+# Goreleaser configuration for Que
+project_name: que
+
+# Build configuration
+builds:
+  - id: que
+    main: ./cmd/que
+    binary: que
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X main.Version={{.Version}}
+    flags:
+      - -trimpath
+
+# Archive configuration
+archives:
+  - id: default
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: >-
+      {{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}
+    files:
+      - LICENSE
+      - README.md
+
+# Checksums
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+# Release configuration
+release:
+  mode: replace
+  header: |
+    ## Que {{ .Tag }}
+    
+    Automated release via [GoReleaser](https://goreleaser.com)
+  footer: |
+    ---
+    
+    Built with ❤️ by [GoReleaser](https://github.com/goreleaser/goreleaser)
+  
+  # Mark pre-releases (tags containing '-')
+  prerelease: auto
+
+# Changelog
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - Merge pull request
+      - Merge branch
+

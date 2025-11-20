@@ -1,8 +1,15 @@
 # Que
-
 > The pipe-able DevOps assistant.
 
+  <img src="img/que_demo.gif" alt="Demo" style="flex: 1" />
+
 Que is a CLI utility designed to act as a filter in a Unix pipeline. It ingests stdin (logs, error tracebacks, config files), sanitizes the data for security, enriches it with local system context, and queries an LLM (ChatGPT or Claude) to determine the root cause and suggest a fix.
+
+## 🔒 Privacy & Security
+
+**Que runs entirely locally.** It scrubs secrets (API keys, PII) using Gitleaks rules before the request leaves your machine. Logs are stateless and not stored.
+
+
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # Release Process
 
-This project uses GitHub Actions to automatically build and publish binaries when a new tag is pushed.
+This project uses [GoReleaser](https://goreleaser.com) with GitHub Actions to automatically build and publish binaries when a new tag is pushed.
 
 ## How to Create a Release
 
