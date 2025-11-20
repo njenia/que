@@ -78,9 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: que-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: |
-            ${{ matrix.binary_name }}
-            que-${{ matrix.goos }}-${{ matrix.goarch }}.*
+          path: que-${{ matrix.goos }}-${{ matrix.goarch }}.*
 
   release:
     name: Create Release
@@ -105,7 +103,8 @@ jobs:
         shell: bash
         working-directory: artifacts
         run: |
-          find . -type f \( -name "que" -o -name "que.exe" -o -name "*.tar.gz" -o -name "*.zip" \) | while read file; do
+          # Only checksum the archive files
+          find . -type f \( -name "*.tar.gz" -o -name "*.zip" \) | sort | while read file; do
             if command -v sha256sum > /dev/null; then
               sha256sum "$file" >> checksums.txt
             elif command -v shasum > /dev/null; then
@@ -119,7 +118,9 @@ jobs:
           tag_name: ${{ steps.tag.outputs.TAG_NAME }}
           name: Release ${{ steps.tag.outputs.TAG_NAME }}
           files: |
-            artifacts/**/*
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
+            artifacts/checksums.txt
           generate_release_notes: true
           draft: false
           prerelease: ${{ contains(steps.tag.outputs.TAG_NAME, '-') }}
