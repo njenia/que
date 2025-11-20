@@ -48,6 +48,13 @@ jobs:
         id: tag
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
+      - name: Verify project structure
+        run: |
+          pwd
+          ls -la
+          test -d cmd/que || (echo "ERROR: cmd/que directory not found!" && exit 1)
+          test -f cmd/que/main.go || (echo "ERROR: cmd/que/main.go not found!" && exit 1)
+
       - name: Build binary
         env:
           GOOS: ${{ matrix.goos }}
@@ -56,7 +63,7 @@ jobs:
         run: |
           go build -ldflags="-s -w -X main.Version=${{ steps.tag.outputs.TAG_NAME }}" \
             -o ${{ matrix.binary_name }} \
-            ./cmd/que
+            github.com/jenian/que/cmd/que
 
       - name: Create archive
         shell: bash
