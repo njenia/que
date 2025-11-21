@@ -76,6 +76,16 @@ go install github.com/njenia/que/cmd/que@latest
 
 ### Basic Usage
 
+**First, configure your API keys:**
+
+```bash
+export QUE_CHATGPT_API_KEY="your-openai-api-key"
+export QUE_CLAUDE_API_KEY="your-anthropic-api-key"
+export QUE_DEFAULT_PROVIDER="openai"  # Optional, defaults to openai
+```
+
+**Then use que to analyze logs:**
+
 ```bash
 # Defaults to ChatGPT
 cat server.log | que
@@ -85,16 +95,6 @@ tail -n 50 error.log | que --provider claude
 
 # Strict mode (verbose output showing what's being sent)
 tail -n 50 error.log | que --provider claude --verbose
-```
-
-### Configuration
-
-Set your API keys as environment variables:
-
-```bash
-export QUE_CHATGPT_API_KEY="your-openai-api-key"
-export QUE_CLAUDE_API_KEY="your-anthropic-api-key"
-export QUE_DEFAULT_PROVIDER="openai"  # Optional, defaults to openai
 ```
 
 ### CLI Flags
